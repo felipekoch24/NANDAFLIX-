@@ -38,7 +38,7 @@
 
     <div id="support" class="tab-content">
         <div class="dev-section">
-            <img src="foto-de-voces.jpg" alt="Nós dois" class="dev-avatar" onerror="this.src='https://via.placeholder.com/120?text=Irm%C3%A3os'">
+            <img src="foto-de-voces.jpg" alt="Nós dois" class="dev-avatar" onclick="abrirModalFoto()" onerror="this.src='https://via.placeholder.com/120?text=Irm%C3%A3os'">
             <h2>Para NANDA</h2>
             <p>Fiz esse aplicativo exclusivo primeiramente por conta do teu aniversário. Espero que seja útil e que goste.</p>
             <p>Espero que cada "episódio" aqui te faça sorrir e lembrar o quanto você é especial, forte e amada pelas pessoas.</p>
@@ -56,11 +56,18 @@
         </div>
     </div>
 
+    <!-- MODAL DA FOTO GRANDE -->
+    <div id="imageModal" class="image-modal">
+        <img id="modalImg" src="foto-de-voces.jpg" alt="Foto Ampliada">
+        <button class="close-modal-btn" onclick="fecharModalFoto()">Fechar</button>
+    </div>
+
     <!-- BOTÃO FLUTUANTE DE VOLTAR AO TOPO -->
     <button id="btnTopo" onclick="voltarAoTopo()" title="Voltar ao topo">↑</button>
 
     <script>
         let allStories = [];
+        let videoEmReproducao = null; // Guarda o vídeo que está tocando atualmente
 
         async function loadStories() {
             try {
@@ -83,7 +90,6 @@
                 return;
             }
 
-            // Agrupa os vídeos por categoria
             const grouped = {};
             stories.forEach(story => {
                 const cat = story.categoria || "Outros Momentos";
@@ -91,7 +97,6 @@
                 grouped[cat].push(story);
             });
 
-            // Cria uma seção visual para cada categoria (divisão)
             for (const [categoria, items] of Object.entries(grouped)) {
                 const categorySection = document.createElement('div');
                 categorySection.className = 'category-section';
@@ -118,7 +123,6 @@
                 return;
             }
 
-            // Pega os últimos adicionados (invertendo a ordem do JSON)
             const recentStories = [...stories].reverse();
 
             const categorySection = document.createElement('div');
@@ -141,7 +145,7 @@
             storyDiv.className = 'story-container';
             storyDiv.innerHTML = `
                 <div class="video-box">
-                    <video src="${story.src}" controls controlsList="nodownload"></video>
+                    <video src="${story.src}" loop controls controlsList="nodownload"></video>
                 </div>
                 <div class="story-content">
                     <h2>${story.titulo}</h2>
@@ -152,6 +156,16 @@
                     </button>
                 </div>
             `;
+
+            // Lógica para garantir que apenas um vídeo toque por vez
+            const videoElem = storyDiv.querySelector('video');
+            videoElem.addEventListener('play', function() {
+                if (videoEmReproducao && videoEmReproducao !== videoElem) {
+                    videoEmReproducao.pause();
+                }
+                videoEmReproducao = videoElem;
+            });
+
             return storyDiv;
         }
 
@@ -188,6 +202,18 @@
             } else {
                 searchContainer.style.display = 'block';
             }
+        }
+
+        // Funções do Modal da Foto
+        function abrirModalFoto() {
+            const modal = document.getElementById('imageModal');
+            const imgSrc = document.querySelector('.dev-avatar').src;
+            document.getElementById('modalImg').src = imgSrc;
+            modal.style.display = 'flex';
+        }
+
+        function fecharModalFoto() {
+            document.getElementById('imageModal').style.display = 'none';
         }
 
         // Controle do botão de voltar ao topo
