@@ -16,6 +16,7 @@
 
     <div class="tabs-container">
         <button class="tab-btn active" onclick="openTab('feed', this)">🎬 Episódios</button>
+        <button class="tab-btn" onclick="openTab('recentes', this)">🔥 Recentes</button>
         <button class="tab-btn" onclick="openTab('support', this)">🎁 Carta Aberta</button>
     </div>
 
@@ -26,6 +27,12 @@
     <div id="feed" class="tab-content active">
         <div id="feed-container">
             <!-- Os vídeos divididos por categorias vão carregar aqui automaticamente -->
+        </div>
+    </div>
+
+    <div id="recentes" class="tab-content">
+        <div id="recent-container" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+            <!-- Os vídeos recentes vão carregar aqui automaticamente -->
         </div>
     </div>
 
@@ -49,6 +56,9 @@
         </div>
     </div>
 
+    <!-- BOTÃO FLUTUANTE DE VOLTAR AO TOPO -->
+    <button id="btnTopo" onclick="voltarAoTopo()" title="Voltar ao topo">↑</button>
+
     <script>
         let allStories = [];
 
@@ -57,6 +67,7 @@
                 const response = await fetch('videos.json');
                 allStories = await response.json();
                 renderStories(allStories);
+                renderRecents(allStories);
             } catch (error) {
                 console.error("Erro ao carregar:", error);
                 document.getElementById('feed-container').innerHTML = "<p style='color: #f87171;'>Erro ao carregar o videos.json.</p>";
@@ -98,6 +109,33 @@
             }
         }
 
+        function renderRecents(stories) {
+            const recentContainer = document.getElementById('recent-container');
+            recentContainer.innerHTML = '';
+            
+            if (stories.length === 0) {
+                recentContainer.innerHTML = "<p style='color: #a78bfa; text-align: center; margin-top: 20px;'>Nenhum episódio recente.</p>";
+                return;
+            }
+
+            // Pega os últimos adicionados (invertendo a ordem do JSON)
+            const recentStories = [...stories].reverse();
+
+            const categorySection = document.createElement('div');
+            categorySection.className = 'category-section';
+
+            const titleElem = document.createElement('h3');
+            titleElem.className = 'category-title';
+            titleElem.textContent = "🔥 Últimos Adicionados";
+            categorySection.appendChild(titleElem);
+
+            recentStories.forEach(story => {
+                categorySection.appendChild(createStoryElement(story));
+            });
+
+            recentContainer.appendChild(categorySection);
+        }
+
         function createStoryElement(story) {
             const storyDiv = document.createElement('div');
             storyDiv.className = 'story-container';
@@ -135,6 +173,7 @@
                 (story.categoria && story.categoria.toLowerCase().includes(searchTerm))
             );
             renderStories(filtered);
+            renderRecents(filtered);
         }
 
         function openTab(tabId, btn) {
@@ -149,6 +188,23 @@
             } else {
                 searchContainer.style.display = 'block';
             }
+        }
+
+        // Controle do botão de voltar ao topo
+        window.onscroll = function() {
+            const btnTopo = document.getElementById("btnTopo");
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                btnTopo.style.display = "flex";
+            } else {
+                btnTopo.style.display = "none";
+            }
+        };
+
+        function voltarAoTopo() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         }
 
         loadStories();
