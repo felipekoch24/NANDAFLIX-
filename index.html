@@ -4,22 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>NandaFlix+ | Feliz Aniversário!</title>
-    <!-- Link para o arquivo de estilo externo -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- TELA DE BLOQUEIO (SÓ LIBERA DIA 7) -->
-    <div id="lockScreen" class="lock-screen" style="display: none;">
-        <div class="lock-content">
-            <h1>🔒 Surpresa Bloqueada!</h1>
-            <p>Este presente foi trancado com carinho e só vai se revelar no grande dia da Nanda (07/09). Falta pouco!</p>
-            <div id="countdown" style="font-size: 1.2rem; color: #c084fc; font-weight: bold; margin-top: 15px;"></div>
-        </div>
-    </div>
-
-    <!-- CONTEÚDO DO APLICATIVO -->
-    <div id="appContent" style="display: none; width: 100%; display: flex; flex-direction: column; align-items: center;">
+    <!-- CONTEÚDO DO APLICATIVO (AGORA ABRE DIRETO, MAS FILTRA O 01.mp4) -->
+    <div id="appContent" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
         <header>
             <h1>NandaFlix+</h1>
             <p>O streaming oficial das nossas melhores memórias. Feliz aniversário! 💜</p>
@@ -73,7 +63,6 @@
     <!-- BOTÃO FLUTUANTE DE VOLTAR AO TOPO -->
     <button id="btnTopo" onclick="voltarAoTopo()" title="Voltar ao topo">↑</button>
 
-    <!-- Link para o arquivo JavaScript externo -->
     <script src="app.js"></script>
 </body>
 </html>
