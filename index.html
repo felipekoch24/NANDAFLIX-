@@ -8,7 +8,7 @@
 </head>
 <body>
 
-    <!-- CONTEÚDO DO APLICATIVO (AGORA ABRE DIRETO, MAS FILTRA O 01.mp4) -->
+    <!-- CONTEÚDO DO APLICATIVO -->
     <div id="appContent" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
         <header>
             <h1>NandaFlix+</h1>
@@ -58,6 +58,15 @@
     <div id="imageModal" class="image-modal">
         <img id="modalImg" src="foto-de-voces.jpg" alt="Foto Ampliada">
         <button class="close-modal-btn" onclick="fecharModalFoto()">Fechar</button>
+    </div>
+
+    <!-- POP-UP QUE SALTA AMANHÃ COM O VÍDEO 01 -->
+    <div id="aniversarioModal" class="aniversario-modal">
+        <div class="aniversario-modal-content">
+            <h2>🎉 É HOJE! Feliz Aniversário, Nanda! 💜</h2>
+            <video id="popupVideo" src="01.mp4" controls controlsList="nodownload"></video>
+            <button class="fechar-popup-btn" onclick="fecharPopupAniversario()">Assistir o resto do app</button>
+        </div>
     </div>
 
     <!-- BOTÃO FLUTUANTE DE VOLTAR AO TOPO -->
