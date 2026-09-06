@@ -7,37 +7,10 @@ let videoEmReproducao = null;
 
 // Executa assim que a página é carregada
 document.addEventListener("DOMContentLoaded", () => {
-    verificarDataLiberacao();
+    loadStories();
 });
 
-// --- 1. TRAVA DE DATA (LIBERA APENAS DIA 7 DE SETEMBRO) ---
-function verificarDataLiberacao() {
-    const agora = new Date();
-    const dia = agora.getDate();
-    const mes = agora.getMonth() + 1; // Janeiro = 1, Setembro = 9
-
-    const diaLiberacao = 7;
-    const mesLiberacao = 9;
-
-    // Se ainda for antes do dia 7 de setembro
-    if (mes < mesLiberacao || (mes === mesLiberacao && dia < diaLiberacao)) {
-        const lockScreen = document.getElementById('lockScreen');
-        const appContent = document.getElementById('appContent');
-        
-        if (lockScreen) lockScreen.style.display = 'flex';
-        if (appContent) appContent.style.display = 'none';
-    } else {
-        const lockScreen = document.getElementById('lockScreen');
-        const appContent = document.getElementById('appContent');
-
-        if (lockScreen) lockScreen.style.display = 'none';
-        if (appContent) appContent.style.display = 'flex';
-        
-        loadStories(); // Carrega os vídeos e libera o app
-    }
-}
-
-// --- 2. CARREGAR VÍDEOS DO JSON ---
+// --- 1. CARREGAR VÍDEOS DO JSON ---
 async function loadStories() {
     try {
         const response = await fetch('videos.json');
@@ -53,7 +26,7 @@ async function loadStories() {
     }
 }
 
-// --- 3. RENDERIZAR FEED DE EPISÓDIOS (COM BLOQUEIO DO 01.mp4) ---
+// --- 2. RENDERIZAR FEED DE EPISÓDIOS (COM BLOQUEIO SÓ DO 01.mp4) ---
 function renderStories(stories) {
     const feedContainer = document.getElementById('feed-container');
     if (!feedContainer) return;
@@ -65,7 +38,7 @@ function renderStories(stories) {
     const mes = agora.getMonth() + 1;
     const ehDiaDoAniversario = (mes > 9 || (mes === 9 && dia >= 7));
 
-    // Esconde o 01.mp4 se não for o dia do aniversário
+    // Esconde apenas o 01.mp4 se não for dia 7. Outros vídeos passam livremente!
     const storiesFiltrados = stories.filter(story => {
         if (!ehDiaDoAniversario && story.src === "01.mp4") {
             return false;
@@ -74,7 +47,7 @@ function renderStories(stories) {
     });
 
     if (storiesFiltrados.length === 0) {
-        feedContainer.innerHTML = "<p style='color: #a78bfa; text-align: center; margin-top: 20px;'>Nenhum episódio encontrado.</p>";
+        feedContainer.innerHTML = "<p style='color: #a78bfa; text-align: center; margin-top: 20px;'>Nenhum episódio disponível ainda.</p>";
         return;
     }
 
@@ -102,7 +75,7 @@ function renderStories(stories) {
     }
 }
 
-// --- 4. RENDERIZAR ABA DE RECENTES ---
+// --- 3. RENDERIZAR ABA DE RECENTES ---
 function renderRecents(stories) {
     const recentContainer = document.getElementById('recent-container');
     if (!recentContainer) return;
@@ -142,7 +115,7 @@ function renderRecents(stories) {
     recentContainer.appendChild(categorySection);
 }
 
-// --- 5. CRIAR ELEMENTO HTML DE CADA VÍDEO ---
+// --- 4. CRIAR ELEMENTO HTML DE CADA VÍDEO ---
 function createStoryElement(story) {
     const storyDiv = document.createElement('div');
     storyDiv.className = 'story-container';
@@ -160,7 +133,6 @@ function createStoryElement(story) {
         </div>
     `;
 
-    // Garante que apenas um vídeo toque por vez (pausa os outros)
     const videoElem = storyDiv.querySelector('video');
     videoElem.addEventListener('play', function() {
         if (videoEmReproducao && videoEmReproducao !== videoElem) {
@@ -172,7 +144,7 @@ function createStoryElement(story) {
     return storyDiv;
 }
 
-// --- 6. BOTÃO DE FAVORITAR ---
+// --- 5. BOTÃO DE FAVORITAR ---
 function toggleLike(btn) {
     btn.classList.toggle('liked');
     if (btn.classList.contains('liked')) {
@@ -182,7 +154,7 @@ function toggleLike(btn) {
     }
 }
 
-// --- 7. SISTEMA DE PESQUISA ---
+// --- 6. SISTEMA DE PESQUISA ---
 function filterStories() {
     const searchInput = document.getElementById('searchInput');
     if (!searchInput) return;
@@ -198,7 +170,7 @@ function filterStories() {
     renderRecents(filtered);
 }
 
-// --- 8. NAVEGAÇÃO ENTRE ABAS ---
+// --- 7. NAVEGAÇÃO ENTRE ABAS ---
 function openTab(tabId, btn) {
     document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(button => button.classList.remove('active'));
@@ -217,7 +189,7 @@ function openTab(tabId, btn) {
     }
 }
 
-// --- 9. MODAL DA FOTO DE PERFIL ---
+// --- 8. MODAL DA FOTO DE PERFIL ---
 function abrirModalFoto() {
     const modal = document.getElementById('imageModal');
     const avatar = document.querySelector('.dev-avatar');
@@ -234,7 +206,7 @@ function fecharModalFoto() {
     if (modal) modal.style.display = 'none';
 }
 
-// --- 10. BOTÃO DE VOLTAR AO TOPO ---
+// --- 9. BOTÃO DE VOLTAR AO TOPO ---
 window.onscroll = function() {
     const btnTopo = document.getElementById("btnTopo");
     if (!btnTopo) return;
