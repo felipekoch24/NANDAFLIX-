@@ -5,28 +5,51 @@
 let allStories = [];
 let videoEmReproducao = null;
 
-// Executa assim que a página é carregada
 document.addEventListener("DOMContentLoaded", () => {
     loadStories();
 });
 
-// --- 1. CARREGAR VÍDEOS DO JSON ---
 async function loadStories() {
     try {
         const response = await fetch('videos.json');
         allStories = await response.json();
         renderStories(allStories);
         renderRecents(allStories);
+        
+        // Verifica se deve fazer o vídeo "saltar" na tela hoje (dia 7)
+        verificarPopupAniversario(allStories);
     } catch (error) {
         console.error("Erro ao carregar o videos.json:", error);
-        const feedContainer = document.getElementById('feed-container');
-        if (feedContainer) {
-            feedContainer.innerHTML = "<p style='color: #f87171; text-align: center; margin-top: 20px;'>Erro ao carregar os episódios.</p>";
+    }
+}
+
+// --- FAZ O VÍDEO 01 SALTAR NA TELA SE FOR DIA 7 ---
+function verificarPopupAniversario(stories) {
+    const agora = new Date();
+    const dia = agora.getDate();
+    const mes = agora.getMonth() + 1;
+    const ehDiaDoAniversario = (mes > 9 || (mes === 9 && dia >= 7));
+
+    if (ehDiaDoAniversario) {
+        // Procura o vídeo 01.mp4 na lista
+        const video01 = stories.find(s => s.src === "01.mp4");
+        const modal = document.getElementById('aniversarioModal');
+        
+        if (video01 && modal) {
+            // Mostra o pop-up de destaque
+            modal.style.display = 'flex';
         }
     }
 }
 
-// --- 2. RENDERIZAR FEED DE EPISÓDIOS (COM BLOQUEIO SÓ DO 01.mp4) ---
+function fecharPopupAniversario() {
+    const modal = document.getElementById('aniversarioModal');
+    const popupVideo = document.getElementById('popupVideo');
+    if (modal) modal.style.display = 'none';
+    if (popupVideo) popupVideo.pause(); // Para o vídeo ao fechar
+}
+
+// --- RENDERIZAR FEED DE EPISÓDIOS (COM BLOQUEIO SÓ DO 01.mp4) ---
 function renderStories(stories) {
     const feedContainer = document.getElementById('feed-container');
     if (!feedContainer) return;
@@ -38,7 +61,6 @@ function renderStories(stories) {
     const mes = agora.getMonth() + 1;
     const ehDiaDoAniversario = (mes > 9 || (mes === 9 && dia >= 7));
 
-    // Esconde apenas o 01.mp4 se não for dia 7. Outros vídeos passam livremente!
     const storiesFiltrados = stories.filter(story => {
         if (!ehDiaDoAniversario && story.src === "01.mp4") {
             return false;
@@ -75,7 +97,7 @@ function renderStories(stories) {
     }
 }
 
-// --- 3. RENDERIZAR ABA DE RECENTES ---
+// --- RENDERIZAR ABA DE RECENTES ---
 function renderRecents(stories) {
     const recentContainer = document.getElementById('recent-container');
     if (!recentContainer) return;
@@ -115,7 +137,6 @@ function renderRecents(stories) {
     recentContainer.appendChild(categorySection);
 }
 
-// --- 4. CRIAR ELEMENTO HTML DE CADA VÍDEO ---
 function createStoryElement(story) {
     const storyDiv = document.createElement('div');
     storyDiv.className = 'story-container';
@@ -144,7 +165,6 @@ function createStoryElement(story) {
     return storyDiv;
 }
 
-// --- 5. BOTÃO DE FAVORITAR ---
 function toggleLike(btn) {
     btn.classList.toggle('liked');
     if (btn.classList.contains('liked')) {
@@ -154,7 +174,6 @@ function toggleLike(btn) {
     }
 }
 
-// --- 6. SISTEMA DE PESQUISA ---
 function filterStories() {
     const searchInput = document.getElementById('searchInput');
     if (!searchInput) return;
@@ -170,7 +189,6 @@ function filterStories() {
     renderRecents(filtered);
 }
 
-// --- 7. NAVEGAÇÃO ENTRE ABAS ---
 function openTab(tabId, btn) {
     document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(button => button.classList.remove('active'));
@@ -189,7 +207,6 @@ function openTab(tabId, btn) {
     }
 }
 
-// --- 8. MODAL DA FOTO DE PERFIL ---
 function abrirModalFoto() {
     const modal = document.getElementById('imageModal');
     const avatar = document.querySelector('.dev-avatar');
@@ -206,7 +223,6 @@ function fecharModalFoto() {
     if (modal) modal.style.display = 'none';
 }
 
-// --- 9. BOTÃO DE VOLTAR AO TOPO ---
 window.onscroll = function() {
     const btnTopo = document.getElementById("btnTopo");
     if (!btnTopo) return;
