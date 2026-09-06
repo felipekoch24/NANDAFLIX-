@@ -4,55 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>NandaFlix+ | Feliz Aniversário!</title>
-    <!-- Link para o arquivo de estilo externo -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header>
-        <h1>NandaFlix+</h1>
-        <p>O streaming oficial das nossas melhores memórias. Feliz aniversário! 💜</p>
-    </header>
-
-    <div class="tabs-container">
-        <button class="tab-btn active" onclick="openTab('feed', this)">🎬 Episódios</button>
-        <button class="tab-btn" onclick="openTab('recentes', this)">🔥 Recentes</button>
-        <button class="tab-btn" onclick="openTab('support', this)">🎁 Carta Aberta</button>
-    </div>
-
-    <div class="search-container">
-        <input type="text" id="searchInput" placeholder="Pesquisar episódios ou categorias..." onkeyup="filterStories()">
-    </div>
-
-    <div id="feed" class="tab-content active">
-        <div id="feed-container">
-            <!-- Os vídeos divididos por categorias vão carregar aqui automaticamente -->
+    <!-- TELA DE BLOQUEIO (SÓ LIBERA DIA 7) -->
+    <div id="lockScreen" class="lock-screen" style="display: none;">
+        <div class="lock-content">
+            <h1>🔒 Surpresa Bloqueada!</h1>
+            <p>Este presente foi trancado com carinho e só vai se revelar no grande dia da Nanda (07/09). Falta pouco!</p>
+            <div id="countdown" style="font-size: 1.2rem; color: #c084fc; font-weight: bold; margin-top: 15px;"></div>
         </div>
     </div>
 
-    <div id="recentes" class="tab-content">
-        <div id="recent-container" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-            <!-- Os vídeos recentes vão carregar aqui automaticamente -->
+    <!-- CONTEÚDO DO APLICATIVO -->
+    <div id="appContent" style="display: none; width: 100%; display: flex; flex-direction: column; align-items: center;">
+        <header>
+            <h1>NandaFlix+</h1>
+            <p>O streaming oficial das nossas melhores memórias. Feliz aniversário! 💜</p>
+        </header>
+
+        <div class="tabs-container">
+            <button class="tab-btn active" onclick="openTab('feed', this)">🎬 Episódios</button>
+            <button class="tab-btn" onclick="openTab('recentes', this)">🔥 Recentes</button>
+            <button class="tab-btn" onclick="openTab('support', this)">🎁 Carta Aberta</button>
         </div>
-    </div>
 
-    <div id="support" class="tab-content">
-        <div class="dev-section">
-            <img src="foto-de-voces.jpg" alt="Nós dois" class="dev-avatar" onclick="abrirModalFoto()" onerror="this.src='https://via.placeholder.com/120?text=Irm%C3%A3os'">
-            <h2>Para NANDA</h2>
-            <p>Fiz esse aplicativo exclusivo primeiramente por conta do teu aniversário. Espero que seja útil e que goste.</p>
-            <p>Espero que cada "episódio" aqui te faça sorrir e lembrar o quanto você é especial, forte e amada pelas pessoas.</p>
-            <p><strong>Com muito carinho, do seu irmão LIPE 🤍</strong></p>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Pesquisar episódios ou categorias..." onkeyup="filterStories()">
+        </div>
 
-            <hr style="border: 0; border-top: 1px solid #3b0764; margin: 25px 0;">
+        <div id="feed" class="tab-content active">
+            <div id="feed-container"></div>
+        </div>
 
-            <h2 style="font-size: 1.3rem; margin-bottom: 12px;">SUPORTE</h2>
-            <p>Gostaria muito do seu FEEDBACK.<br>Qualquer sugestão, opinião, clique no botão abaixo e entre em contato comigo.</p>
-            <p>Sua OPINIÃO é muito importante pra mim, e pra mim saber se mantenho ou paro com o projeto.</p>
-            
-            <a href="https://wa.me/5551995830380?text=Oi%20Lipe,%20gostei%20do%20NandaFlix!" target="_blank" class="whatsapp-btn">
-                <span>💬</span> Chamar no WhatsApp
-            </a>
+        <div id="recentes" class="tab-content">
+            <div id="recent-container" style="width: 100%; display: flex; flex-direction: column; align-items: center;"></div>
+        </div>
+
+        <div id="support" class="tab-content">
+            <div class="dev-section">
+                <img src="foto-de-voces.jpg" alt="Nós dois" class="dev-avatar" onclick="abrirModalFoto()" onerror="this.src='https://via.placeholder.com/120?text=Irm%C3%A3os'">
+                <h2>Para NANDA</h2>
+                <p>Fiz esse aplicativo exclusivo primeiramente por conta do teu aniversário. Espero que seja útil e que goste.</p>
+                <p>Espero que cada "episódio" aqui te faça sorrir e lembrar o quanto você é especial, forte e amada pelas pessoas.</p>
+                <p><strong>Com muito carinho, do seu irmão LIPE 🤍</strong></p>
+
+                <hr style="border: 0; border-top: 1px solid #3b0764; margin: 25px 0;">
+
+                <h2 style="font-size: 1.3rem; margin-bottom: 12px;">SUPORTE</h2>
+                <p>Gostaria muito do seu FEEDBACK.<br>Qualquer sugestão, opinião, clique no botão abaixo e entre em contato comigo.</p>
+                <p>Sua OPINIÃO é muito importante pra mim, e pra mim saber se mantenho ou paro com o projeto.</p>
+                
+                <a href="https://wa.me/5551995830380?text=Oi%20Lipe,%20gostei%20do%20NandaFlix!" target="_blank" class="whatsapp-btn">
+                    <span>💬</span> Chamar no WhatsApp
+                </a>
+            </div>
         </div>
     </div>
 
@@ -66,8 +73,29 @@
     <button id="btnTopo" onclick="voltarAoTopo()" title="Voltar ao topo">↑</button>
 
     <script>
+        // --- TRAVA DE DATA (LIBERA DIA 7 DE SETEMBRO) ---
+        function verificarDataLiberacao() {
+            const agora = new Date();
+            const dia = agora.getDate();
+            const mes = agora.getMonth() + 1; // Janeiro é 0, Setembro é 8 (+1 = 9)
+
+            // ALTERE AQUI caso queira mudar o dia/mês (Ex: dia 7, mês 9)
+            const diaLiberacao = 7;
+            const mesLiberacao = 9;
+
+            // Se ainda não chegou o dia 7 de setembro (ou se estiver em meses anteriores)
+            if (mes < mesLiberacao || (mes === mesLiberacao && dia < diaLiberacao)) {
+                document.getElementById('lockScreen').style.display = 'flex';
+                document.getElementById('appContent').style.display = 'none';
+            } else {
+                document.getElementById('lockScreen').style.display = 'none';
+                document.getElementById('appContent').style.display = 'flex';
+                loadStories(); // Carrega os vídeos só quando liberar
+            }
+        }
+
         let allStories = [];
-        let videoEmReproducao = null; // Guarda o vídeo que está tocando atualmente
+        let videoEmReproducao = null;
 
         async function loadStories() {
             try {
@@ -124,7 +152,6 @@
             }
 
             const recentStories = [...stories].reverse();
-
             const categorySection = document.createElement('div');
             categorySection.className = 'category-section';
 
@@ -157,7 +184,6 @@
                 </div>
             `;
 
-            // Lógica para garantir que apenas um vídeo toque por vez
             const videoElem = storyDiv.querySelector('video');
             videoElem.addEventListener('play', function() {
                 if (videoEmReproducao && videoEmReproducao !== videoElem) {
@@ -204,7 +230,6 @@
             }
         }
 
-        // Funções do Modal da Foto
         function abrirModalFoto() {
             const modal = document.getElementById('imageModal');
             const imgSrc = document.querySelector('.dev-avatar').src;
@@ -216,7 +241,6 @@
             document.getElementById('imageModal').style.display = 'none';
         }
 
-        // Controle do botão de voltar ao topo
         window.onscroll = function() {
             const btnTopo = document.getElementById("btnTopo");
             if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
@@ -233,7 +257,8 @@
             });
         }
 
-        loadStories();
+        // Executa a verificação da data assim que a página abre
+        verificarDataLiberacao();
     </script>
 </body>
 </html>
