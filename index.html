@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NandaFlix+ | Feliz Aniversário!</title>
+    <!-- Link para o arquivo de estilo externo -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>NandaFlix+</h1>
+        <p>O streaming oficial das nossas melhores memórias. Feliz aniversário! 💜</p>
+    </header>
+
+    <div class="tabs-container">
+        <button class="tab-btn active" onclick="openTab('feed', this)">🎬 Episódios</button>
+        <button class="tab-btn" onclick="openTab('support', this)">🎁 Carta Aberta</button>
+    </div>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Pesquisar episódios ou categorias..." onkeyup="filterStories()">
+    </div>
+
+    <div id="feed" class="tab-content active">
+        <div id="feed-container">
+            <!-- Os vídeos divididos por categorias vão carregar aqui automaticamente -->
+        </div>
+    </div>
+
+    <div id="support" class="tab-content">
+        <div class="dev-section">
+            <img src="foto-de-voces.jpg" alt="Nós dois" class="dev-avatar" onerror="this.src='https://via.placeholder.com/120?text=Irm%C3%A3os'">
+            <h2>Para a Melhor Irmã do Mundo</h2>
+            <p>Fiz esse aplicativo exclusivo só para você celebrar o seu dia. Passar por todas essas fases da vida ao seu lado é um privilégio enorme.</p>
+            <p>Espero que cada "episódio" aqui te faça sorrir e lembrar o quanto você é especial, forte e amada.</p>
+            <p><strong>Com muito amor, seu irmão / sua irmã. 🤍</strong></p>
+        </div>
+    </div>
+
+    <script>
+        let allStories = [];
+
+        async function loadStories() {
+            try {
+                const response = await fetch('videos.json');
+                allStories = await response.json();
+                renderStories(allStories);
+            } catch (error) {
+                console.error("Erro ao carregar:", error);
+                document.getElementById('feed-container').innerHTML = "<p style='color: #f87171;'>Erro ao carregar o videos.json.</p>";
+            }
+        }
+
+        function renderStories(stories) {
+            const feedContainer = document.getElementById('feed-container');
+            feedContainer.innerHTML = '';
+            
+            if (stories.length === 0) {
+                feedContainer.innerHTML = "<p style='color: #a78bfa; text-align: center; margin-top: 20px;'>Nenhum episódio encontrado.</p>";
+                return;
+            }
+
+            // Agrupa os vídeos por categoria
+            const grouped = {};
+            stories.forEach(story => {
+                const cat = story.categoria || "Outros Momentos";
+                if (!grouped[cat]) grouped[cat] = [];
+                grouped[cat].push(story);
+            });
+
+            // Cria uma seção visual para cada categoria (divisão)
+            for (const [categoria, items] of Object.entries(grouped)) {
+                const categorySection = document.createElement('div');
+                categorySection.className = 'category-section';
+
+                const titleElem = document.createElement('h3');
+                titleElem.className = 'category-title';
+                titleElem.textContent = categoria;
+                categorySection.appendChild(titleElem);
+
+                items.forEach(story => {
+                    categorySection.appendChild(createStoryElement(story));
+                });
+
+                feedContainer.appendChild(categorySection);
+            }
+        }
+
+        function createStoryElement(story) {
+            const storyDiv = document.createElement('div');
+            storyDiv.className = 'story-container';
+            storyDiv.innerHTML = `
+                <div class="video-box">
+                    <video src="${story.src}" controls controlsList="nodownload"></video>
+                </div>
+                <div class="story-content">
+                    <h2>${story.titulo}</h2>
+                    <blockquote>"${story.citacao}"</blockquote>
+                    <p>${story.descricao}</p>
+                    <button class="like-btn" onclick="toggleLike(this)">
+                        <span>💜</span> Favoritar Episódio
+                    </button>
+                </div>
+            `;
+            return storyDiv;
+        }
+
+        function toggleLike(btn) {
+            btn.classList.toggle('liked');
+            if (btn.classList.contains('liked')) {
+                btn.innerHTML = '<span>💜</span> Favoritado!';
+            } else {
+                btn.innerHTML = '<span>💜</span> Favoritar Episódio';
+            }
+        }
+
+        function filterStories() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = allStories.filter(story => 
+                story.titulo.toLowerCase().includes(searchTerm) || 
+                story.descricao.toLowerCase().includes(searchTerm) ||
+                story.citacao.toLowerCase().includes(searchTerm) ||
+                (story.categoria && story.categoria.toLowerCase().includes(searchTerm))
+            );
+            renderStories(filtered);
+        }
+
+        function openTab(tabId, btn) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(button => button.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            btn.classList.add('active');
+            
+            const searchContainer = document.querySelector('.search-container');
+            if(tabId === 'support') {
+                searchContainer.style.display = 'none';
+            } else {
+                searchContainer.style.display = 'block';
+            }
+        }
+
+        loadStories();
+    </script>
+</body>
+</html>
