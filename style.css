@@ -206,7 +206,7 @@ header p {
     font-weight: bold;
 }
 
-.like-btn:hover, .like-dev.liked {
+.like-btn:hover, .like-btn.liked {
     background: #7e22ce;
     border-color: #c084fc;
     color: #ffffff;
@@ -219,7 +219,7 @@ header p {
     color: #ffffff;
 }
 
-/* --- SEÇÃO MENSAGEM ESPECIAL --- */
+/* --- SEÇÃO MENSAGEM ESPECIAL & SUPORTE --- */
 .dev-section {
     max-width: 500px;
     width: 100%;
@@ -253,6 +253,32 @@ header p {
     font-size: 1.05rem;
     line-height: 1.6;
     margin-bottom: 18px;
+}
+
+/* --- BOTÃO DO WHATSAPP (SUPORTE) --- */
+.whatsapp-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: #7e22ce;
+    color: #ffffff;
+    border: 1px solid #a855f7;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-weight: bold;
+    font-size: 1rem;
+    text-decoration: none;
+    margin-top: 15px;
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+    transition: all 0.3s ease;
+}
+
+.whatsapp-btn:hover {
+    background-color: #9333ea;
+    border-color: #c084fc;
+    transform: scale(1.03);
 }
 
 @keyframes fadeIn {
