@@ -11,69 +11,107 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 25px 15px;
+    padding: 20px 10px;
     min-height: 100vh;
 }
 
-header {
-    text-align: center;
-    margin-bottom: 20px;
-    animation: fadeIn 1.5s ease-in-out;
+/* --- CABEÇALHO COM A FOTO DE FUNDO (topo.jpg) --- */
+.hero-header {
     width: 100%;
     max-width: 500px;
+    height: 380px;
+    background-image: url('topo.jpg');
+    background-size: cover;
+    background-position: center;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    box-shadow: 0 10px 25px rgba(107, 33, 168, 0.4);
+    margin-bottom: 20px;
+    border: 1px solid #7e22ce;
 }
 
-header h1 {
-    font-size: 2.6rem;
+.hero-overlay {
+    width: 100%;
+    background: linear-gradient(to top, rgba(11, 5, 13, 0.95) 20%, rgba(11, 5, 13, 0.3) 80%);
+    padding: 25px 20px;
+    text-align: center;
+}
+
+.hero-overlay h1 {
+    font-size: 2.3rem;
     letter-spacing: 2px;
     color: #ffffff;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     text-transform: uppercase;
     font-weight: 900;
-    text-shadow: 0 2px 12px rgba(168, 85, 247, 0.6);
+    text-shadow: 0 0 15px rgba(168, 85, 247, 0.8);
 }
 
-header p {
-    color: #d8b4fe;
-    font-size: 1.05rem;
-    padding: 0 10px;
-    line-height: 1.4;
+.hero-overlay p {
+    color: #e9d5ff;
+    font-size: 0.95rem;
+    line-height: 1.3;
 }
 
-/* --- SISTEMA DE ABAS --- */
+/* --- SISTEMA DE ABAS (ESTILO CARD DA IMAGEM) --- */
 .tabs-container {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     gap: 8px;
     max-width: 500px;
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .tab-btn {
-    background-color: #1f1128;
+    background-color: #15081c;
     color: #d8b4fe;
     border: 1px solid #581c87;
-    padding: 12px 12px;
-    border-radius: 8px;
+    padding: 12px 8px;
+    border-radius: 12px;
     cursor: pointer;
     font-family: inherit;
-    font-weight: bold;
-    font-size: 0.95rem;
     flex: 1;
-    transition: all 0.2s;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    transition: all 0.3s ease;
+    text-align: left;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.tab-btn .tab-icon {
+    font-size: 1.2rem;
+}
+
+.tab-btn .tab-text strong {
+    display: block;
+    font-size: 0.8rem;
+    color: #ffffff;
+    font-weight: bold;
+    line-height: 1.1;
+}
+
+.tab-btn .tab-text span {
+    display: block;
+    font-size: 0.65rem;
+    color: #b892ec;
+    margin-top: 2px;
+    line-height: 1;
 }
 
 .tab-btn:hover {
-    color: #ffffff;
     border-color: #a855f7;
 }
 
 .tab-btn.active {
-    background-color: #7e22ce;
-    color: #ffffff;
-    border-color: #a855f7;
+    background-color: #1f102c;
+    border-color: #c084fc;
     box-shadow: 0 0 15px rgba(168, 85, 247, 0.5);
 }
 
@@ -88,30 +126,47 @@ header p {
     display: flex;
 }
 
-/* --- BARRA DE PESQUISA --- */
+/* --- BARRA DE PESQUISA ESTILIZADA --- */
 .search-container {
     max-width: 500px;
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    position: relative;
+    display: flex;
+    align-items: center;
 }
 
 .search-container input {
     width: 100%;
-    padding: 14px 20px;
-    border-radius: 8px;
+    padding: 14px 45px;
+    border-radius: 12px;
     border: 1px solid #581c87;
     background: #15081c;
     color: #ffffff;
-    font-size: 1.05rem;
+    font-size: 0.95rem;
     outline: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     transition: border-color 0.3s;
 }
 
 .search-container input:focus {
-    border-color: #a855f7;
+    border-color: #c084fc;
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
 }
 
-/* --- DIVISÕES / CATEGORIAS --- */
+.search-icon {
+    position: absolute;
+    left: 15px;
+    font-size: 1rem;
+}
+
+.search-heart {
+    position: absolute;
+    right: 15px;
+    font-size: 1rem;
+}
+
+/* --- RESTANTE DOS ELEMENTOS (FEED, VÍDEOS, MODAIS) --- */
 .category-section {
     width: 100%;
     max-width: 500px;
@@ -137,6 +192,7 @@ header p {
 
 .story-container {
     width: 100%;
+    max-width: 500px;
     background: #15081c;
     border: 1px solid #3b0764;
     border-radius: 12px;
@@ -214,13 +270,6 @@ header p {
     transform: scale(1.03);
 }
 
-.like-btn.liked {
-    background: #7e22ce;
-    border-color: #c084fc;
-    color: #ffffff;
-}
-
-/* --- SEÇÃO MENSAGEM ESPECIAL & SUPORTE --- */
 .dev-section {
     max-width: 500px;
     width: 100%;
@@ -230,7 +279,6 @@ header p {
     padding: 30px 20px;
     text-align: center;
     box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-    animation: slideUp 0.8s ease-out;
 }
 
 .dev-avatar {
@@ -242,11 +290,6 @@ header p {
     margin-bottom: 20px;
     box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
     cursor: pointer;
-    transition: transform 0.2s;
-}
-
-.dev-avatar:hover {
-    transform: scale(1.05);
 }
 
 .dev-section h2 {
@@ -262,7 +305,6 @@ header p {
     margin-bottom: 18px;
 }
 
-/* --- BOTÃO DO WHATSAPP (SUPORTE) --- */
 .whatsapp-btn {
     display: inline-flex;
     align-items: center;
@@ -273,23 +315,12 @@ header p {
     border: 1px solid #a855f7;
     padding: 12px 24px;
     border-radius: 8px;
-    font-family: inherit;
     font-weight: bold;
-    font-size: 1rem;
     text-decoration: none;
     margin-top: 15px;
-    box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
-    transition: all 0.3s ease;
 }
 
-.whatsapp-btn:hover {
-    background-color: #9333ea;
-    border-color: #c084fc;
-    transform: scale(1.03);
-}
-
-/* --- MODAL DA FOTO GRANDE --- */
-.image-modal {
+.image-modal, .aniversario-modal {
     display: none;
     position: fixed;
     z-index: 1000;
@@ -304,49 +335,11 @@ header p {
     padding: 20px;
 }
 
-.image-modal img {
+.image-modal img, .aniversario-modal video {
     max-width: 90%;
     max-height: 75vh;
     border-radius: 12px;
     border: 3px solid #a855f7;
-    box-shadow: 0 0 30px rgba(168, 85, 247, 0.7);
-    animation: fadeIn 0.3s ease;
-    object-fit: contain;
-}
-
-.close-modal-btn {
-    margin-top: 25px;
-    background-color: #7e22ce;
-    color: #ffffff;
-    border: 1px solid #a855f7;
-    padding: 12px 30px;
-    border-radius: 8px;
-    font-family: inherit;
-    font-weight: bold;
-    font-size: 1.1rem;
-    cursor: pointer;
-    box-shadow: 0 0 15px rgba(168, 85, 247, 0.5);
-    transition: transform 0.2s, background-color 0.2s;
-}
-
-.close-modal-btn:hover {
-    transform: scale(1.05);
-    background-color: #9333ea;
-}
-
-/* --- POP-UP DE DESTAQUE PARA O VÍDEO DO DIA 7 --- */
-.aniversario-modal {
-    display: none;
-    position: fixed;
-    z-index: 9999;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(11, 5, 13, 0.95);
-    justify-content: center;
-    align-items: center;
-    padding: 15px;
 }
 
 .aniversario-modal-content {
@@ -357,43 +350,19 @@ header p {
     width: 100%;
     padding: 20px;
     text-align: center;
-    box-shadow: 0 0 40px rgba(168, 85, 247, 0.7);
-    animation: slideUp 0.5s ease-out;
 }
 
-.aniversario-modal-content h2 {
-    color: #ffffff;
-    font-size: 1.5rem;
-    margin-bottom: 15px;
-}
-
-.aniversario-modal-content video {
-    width: 100%;
-    max-height: 400px;
-    border-radius: 8px;
-    object-fit: cover;
-    margin-bottom: 15px;
-}
-
-.fechar-popup-btn {
+.close-modal-btn, .fechar-popup-btn {
+    margin-top: 20px;
     background-color: #7e22ce;
     color: #ffffff;
     border: 1px solid #a855f7;
     padding: 10px 25px;
     border-radius: 8px;
-    font-family: inherit;
     font-weight: bold;
-    font-size: 1rem;
     cursor: pointer;
-    transition: transform 0.2s;
 }
 
-.fechar-popup-btn:hover {
-    transform: scale(1.05);
-    background-color: #9333ea;
-}
-
-/* --- BOTÃO FLUTUANTE DE VOLTAR AO TOPO --- */
 #btnTopo {
     position: fixed;
     bottom: 25px;
@@ -410,19 +379,7 @@ header p {
     display: none;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 15px rgba(168, 85, 247, 0.5);
     z-index: 998;
-    transition: transform 0.2s, background-color 0.2s;
-}
-
-#btnTopo:hover {
-    transform: scale(1.1);
-    background-color: #9333ea;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes slideUp {
