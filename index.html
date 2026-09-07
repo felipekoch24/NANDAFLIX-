@@ -10,21 +10,50 @@
 
     <!-- CONTEÚDO DO APLICATIVO -->
     <div id="appContent" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-        <header>
-            <h1>NandaFlix+</h1>
-            <p>O streaming oficial das nossas melhores memórias. Feliz aniversário! 💜</p>
+        
+        <!-- CABEÇALHO COM A FOTO DE FUNDO (topo.jpg) E O TÍTULO -->
+        <header class="hero-header">
+            <div class="hero-overlay">
+                <h1>NANDAFLIX+</h1>
+                <p>O streaming oficial das nossas melhores memórias.<br>Feliz aniversário! 💜</p>
+            </div>
         </header>
 
+        <!-- BOTÕES DE NAVEGAÇÃO (ESTILO CARD DA IMAGEM) -->
         <div class="tabs-container">
-            <button class="tab-btn active" onclick="openTab('feed', this)">🎬 Episódios</button>
-            <button class="tab-btn" onclick="openTab('recentes', this)">🔥 Recentes</button>
-            <button class="tab-btn" onclick="openTab('support', this)">🎁 Carta Aberta</button>
+            <button class="tab-btn active" onclick="openTab('feed', this)">
+                <span class="tab-icon">🎬</span>
+                <div class="tab-text">
+                    <strong>Episódios</strong>
+                    <span>Nossos momentos em vídeo</span>
+                </div>
+            </button>
+
+            <button class="tab-btn" onclick="openTab('recentes', this)">
+                <span class="tab-icon">🕒</span>
+                <div class="tab-text">
+                    <strong>Últimos adicionados</strong>
+                    <span>O que acabamos de assistir</span>
+                </div>
+            </button>
+
+            <button class="tab-btn" onclick="openTab('support', this)">
+                <span class="tab-icon">💌</span>
+                <div class="tab-text">
+                    <strong>Carta Aberta</strong>
+                    <span>Palavras que dizem tudo</span>
+                </div>
+            </button>
         </div>
 
+        <!-- BARRA DE PESQUISA ESTILIZADA -->
         <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Pesquisar episódios ou categorias..." onkeyup="filterStories()">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" placeholder="Pesquisar momentos, risadas e muito amor..." onkeyup="filterStories()">
+            <span class="search-heart">💜</span>
         </div>
 
+        <!-- CONTEÚDO DAS ABAS -->
         <div id="feed" class="tab-content active">
             <div id="feed-container"></div>
         </div>
@@ -45,7 +74,6 @@
 
                 <h2 style="font-size: 1.3rem; margin-bottom: 12px;">SUPORTE</h2>
                 <p>Gostaria muito do seu FEEDBACK.<br>Qualquer sugestão, opinião, clique no botão abaixo e entre em contato comigo.</p>
-                <p>Sua OPINIÃO é muito importante pra mim, e pra mim saber se mantenho ou paro com o projeto.</p>
                 
                 <a href="https://wa.me/5551995830380?text=Oi%20Lipe,%20gostei%20do%20NandaFlix!" target="_blank" class="whatsapp-btn">
                     <span>💬</span> Chamar no WhatsApp
@@ -60,7 +88,7 @@
         <button class="close-modal-btn" onclick="fecharModalFoto()">Fechar</button>
     </div>
 
-    <!-- POP-UP QUE SALTA AMANHÃ COM O VÍDEO 01 -->
+    <!-- POP-UP DE ANIVERSÁRIO (EXIBIDO NO DIA 7) -->
     <div id="aniversarioModal" class="aniversario-modal">
         <div class="aniversario-modal-content">
             <h2>🎉 É HOJE! Feliz Aniversário, Nanda! 💜</h2>
