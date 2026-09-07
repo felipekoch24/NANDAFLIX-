@@ -10,8 +10,8 @@
 
     <div id="appContent" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
         
-        <!-- CABEÇALHO (topo.jpg) -->
-        <header class="hero-header"></header>
+        <!-- CABEÇALHO (topo.jpg) - Agora clicável e ajustado para não cortar -->
+        <header class="hero-header" onclick="abrirModalFoto()"></header>
 
         <!-- BARRA DE PESQUISA -->
         <div class="search-box-container">
@@ -39,10 +39,15 @@
         <div id="carta-tab" class="tab-content" style="width: 92%; max-width: 600px; display: none; flex-direction: column; align-items: center; text-align: center; padding: 25px; background: rgba(20, 10, 35, 0.9); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 16px; margin-bottom: 30px; box-shadow: 0 5px 20px rgba(0,0,0,0.4);">
             <h2 style="color: #fff; margin-bottom: 15px; font-size: 1.3rem;">Palavras que dizem tudo 🤍</h2>
             <p style="color: #d8b4fe; line-height: 1.6; font-size: 1rem;">
-                Querida irmã, este espaço foi feito com todo o carinho do mundo para celebrar a sua vida, as nossas memórias mais engraçadas e todas as risadas que compartilhamos. Obrigado por ser essa pessoa incrível que ilumina os nossos dias. Que o seu novo ano seja repleto de conquistas, alegrias e muito chocolate! Te amo muito! 💜✨
+                Querida irmã, este espaço foi feito com todo o carinho do mundo para celebrar a sua vida, as nossas memórias mais engraçadas e todas as risadas que compartilhamos.💜✨
             </p>
         </div>
 
+    </div>
+
+    <!-- MODAL DA FOTO DE TOPO AMPLIADA -->
+    <div id="imageModal" class="image-modal" onclick="fecharModalFoto()">
+        <img src="topo.jpg" alt="Foto Ampliada">
     </div>
 
     <!-- BOTÃO FLUTUANTE DE VOLTAR AO TOPO -->
