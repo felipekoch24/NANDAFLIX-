@@ -1,242 +1,142 @@
-// ==========================================
-// NANDAFLIX+ - SCRIPT PRINCIPAL (app.js)
-// ==========================================
+// --- DADOS DOS VÍDEOS (EPISÓDIOS) ---
+const episodios = [
+    {
+        id: 1,
+        titulo: "7 de SETEMBRO",
+        video: "01.mp4",
+        citacao: "O começo de tudo e as melhores memórias que guardamos no coração.",
+        texto: "Um dia mais do que especial que merece ser lembrado sempre com muito carinho e sorrisos.",
+        data: "2026-09-07",
+        recente: true
+    }
+    // Adicione mais episódios aqui se quiser!
+];
 
-let allStories = [];
-let videoEmReproducao = null;
-
+// --- CARREGAR CONTEÚDO AO ABRIR A PÁGINA ---
 document.addEventListener("DOMContentLoaded", () => {
-    loadStories();
+    carregarFeed();
+    carregarRecentes();
 });
 
-async function loadStories() {
-    try {
-        const response = await fetch('videos.json');
-        allStories = await response.json();
-        renderStories(allStories);
-        renderRecents(allStories);
-        
-        // Verifica se deve fazer o vídeo "saltar" na tela hoje (dia 7)
-        verificarPopupAniversario(allStories);
-    } catch (error) {
-        console.error("Erro ao carregar o videos.json:", error);
-    }
+// --- ALTERAR ABAS ---
+function openTab(tabId, element) {
+    // Esconde todas as abas
+    const contents = document.querySelectorAll('.tab-content');
+    contents.forEach(content => content.classList.remove('active'));
+
+    // Remove a classe active de todos os botões
+    const buttons = document.querySelectorAll('.tab-btn');
+    buttons.forEach(btn => btn.classList.remove('active'));
+
+    // Mostra a aba escolhida e ativa o botão correspondente
+    document.getElementById(tabId).classList.add('active');
+    element.classList.add('active');
 }
 
-// --- FAZ O VÍDEO 01 SALTAR NA TELA SE FOR DIA 7 ---
-function verificarPopupAniversario(stories) {
-    const agora = new Date();
-    const dia = agora.getDate();
-    const mes = agora.getMonth() + 1;
-    const ehDiaDoAniversario = (mes > 9 || (mes === 9 && dia >= 7));
+// --- RENDERIZAR FEED ---
+function carregarFeed() {
+    const container = document.getElementById('feed-container');
+    if (!container) return;
 
-    if (ehDiaDoAniversario) {
-        // Procura o vídeo 01.mp4 na lista
-        const video01 = stories.find(s => s.src === "01.mp4");
-        const modal = document.getElementById('aniversarioModal');
-        
-        if (video01 && modal) {
-            // Mostra o pop-up de destaque
-            modal.style.display = 'flex';
-        }
-    }
+    container.innerHTML = '';
+    episodios.forEach(ep => {
+        container.innerHTML += `
+            <div class="story-container" data-titulo="${ep.titulo.toLowerCase()}">
+                <div class="category-section" style="width:100%; margin:0;">
+                    <h3 class="category-title">${ep.titulo}</h3>
+                </div>
+                <div class="video-box">
+                    <video src="${ep.video}" controls controlsList="nodownload"></video>
+                </div>
+                <div class="story-content">
+                    <h2>${ep.titulo}</h2>
+                    <blockquote>"${ep.citacao}"</blockquote>
+                    <p>${ep.texto}</p>
+                    <button class="like-btn" onclick="toggleLike(this)">
+                        <span>🤍</span> Curtir Momento
+                    </button>
+                </div>
+            </div>
+        `;
+    });
 }
 
-function fecharPopupAniversario() {
-    const modal = document.getElementById('aniversarioModal');
-    const popupVideo = document.getElementById('popupVideo');
-    if (modal) modal.style.display = 'none';
-    if (popupVideo) popupVideo.pause(); // Para o vídeo ao fechar
-}
+// --- RENDERIZAR ÚLTIMOS ADICIONADOS ---
+function carregarRecentes() {
+    const container = document.getElementById('recent-container');
+    if (!container) return;
 
-// --- RENDERIZAR FEED DE EPISÓDIOS (COM BLOQUEIO SÓ DO 01.mp4) ---
-function renderStories(stories) {
-    const feedContainer = document.getElementById('feed-container');
-    if (!feedContainer) return;
+    container.innerHTML = '';
+    const recentes = episodios.filter(ep => ep.recente);
     
-    feedContainer.innerHTML = '';
-    
-    const agora = new Date();
-    const dia = agora.getDate();
-    const mes = agora.getMonth() + 1;
-    const ehDiaDoAniversario = (mes > 9 || (mes === 9 && dia >= 7));
-
-    const storiesFiltrados = stories.filter(story => {
-        if (!ehDiaDoAniversario && story.src === "01.mp4") {
-            return false;
-        }
-        return true;
+    recentes.forEach(ep => {
+        container.innerHTML += `
+            <div class="story-container">
+                <div class="video-box">
+                    <video src="${ep.video}" controls controlsList="nodownload"></video>
+                </div>
+                <div class="story-content">
+                    <h2>${ep.titulo} (Recente)</h2>
+                    <p>${ep.texto}</p>
+                </div>
+            </div>
+        `;
     });
-
-    if (storiesFiltrados.length === 0) {
-        feedContainer.innerHTML = "<p style='color: #a78bfa; text-align: center; margin-top: 20px;'>Nenhum episódio disponível ainda.</p>";
-        return;
-    }
-
-    const grouped = {};
-    storiesFiltrados.forEach(story => {
-        const cat = story.categoria || "Outros Momentos";
-        if (!grouped[cat]) grouped[cat] = [];
-        grouped[cat].push(story);
-    });
-
-    for (const [categoria, items] of Object.entries(grouped)) {
-        const categorySection = document.createElement('div');
-        categorySection.className = 'category-section';
-
-        const titleElem = document.createElement('h3');
-        titleElem.className = 'category-title';
-        titleElem.textContent = categoria;
-        categorySection.appendChild(titleElem);
-
-        items.forEach(story => {
-            categorySection.appendChild(createStoryElement(story));
-        });
-
-        feedContainer.appendChild(categorySection);
-    }
 }
 
-// --- RENDERIZAR ABA DE RECENTES ---
-function renderRecents(stories) {
-    const recentContainer = document.getElementById('recent-container');
-    if (!recentContainer) return;
-    
-    recentContainer.innerHTML = '';
-    
-    const agora = new Date();
-    const dia = agora.getDate();
-    const mes = agora.getMonth() + 1;
-    const ehDiaDoAniversario = (mes > 9 || (mes === 9 && dia >= 7));
-
-    const storiesFiltrados = stories.filter(story => {
-        if (!ehDiaDoAniversario && story.src === "01.mp4") {
-            return false;
-        }
-        return true;
-    });
-
-    if (storiesFiltrados.length === 0) {
-        recentContainer.innerHTML = "<p style='color: #a78bfa; text-align: center; margin-top: 20px;'>Nenhum episódio recente.</p>";
-        return;
-    }
-
-    const recentStories = [...storiesFiltrados].reverse();
-    const categorySection = document.createElement('div');
-    categorySection.className = 'category-section';
-
-    const titleElem = document.createElement('h3');
-    titleElem.className = 'category-title';
-    titleElem.textContent = "🔥 Últimos Adicionados";
-    categorySection.appendChild(titleElem);
-
-    recentStories.forEach(story => {
-        categorySection.appendChild(createStoryElement(story));
-    });
-
-    recentContainer.appendChild(categorySection);
-}
-
-function createStoryElement(story) {
-    const storyDiv = document.createElement('div');
-    storyDiv.className = 'story-container';
-    storyDiv.innerHTML = `
-        <div class="video-box">
-            <video src="${story.src}" loop controls controlsList="nodownload"></video>
-        </div>
-        <div class="story-content">
-            <h2>${story.titulo}</h2>
-            <blockquote>"${story.citacao}"</blockquote>
-            <p>${story.descricao}</p>
-            <button class="like-btn" onclick="toggleLike(this)">
-                <span>💜</span> Favoritar Episódio
-            </button>
-        </div>
-    `;
-
-    const videoElem = storyDiv.querySelector('video');
-    videoElem.addEventListener('play', function() {
-        if (videoEmReproducao && videoEmReproducao !== videoElem) {
-            videoEmReproducao.pause();
-        }
-        videoEmReproducao = videoElem;
-    });
-
-    return storyDiv;
-}
-
+// --- BOTÃO DE CURTIR ---
 function toggleLike(btn) {
     btn.classList.toggle('liked');
+    const span = btn.querySelector('span');
     if (btn.classList.contains('liked')) {
-        btn.innerHTML = '<span>💜</span> Favoritado!';
+        span.textContent = '❤️';
     } else {
-        btn.innerHTML = '<span>💜</span> Favoritar Episódio';
+        span.textContent = '🤍';
     }
 }
 
+// --- PESQUISA ---
 function filterStories() {
-    const searchInput = document.getElementById('searchInput');
-    if (!searchInput) return;
+    const query = document.getElementById('searchInput').value.toLowerCase();
+    const stories = document.querySelectorAll('.story-container');
 
-    const searchTerm = searchInput.value.toLowerCase();
-    const filtered = allStories.filter(story => 
-        story.titulo.toLowerCase().includes(searchTerm) || 
-        story.descricao.toLowerCase().includes(searchTerm) ||
-        story.citacao.toLowerCase().includes(searchTerm) ||
-        (story.categoria && story.categoria.toLowerCase().includes(searchTerm))
-    );
-    renderStories(filtered);
-    renderRecents(filtered);
-}
-
-function openTab(tabId, btn) {
-    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-    document.querySelectorAll('.tab-btn').forEach(button => button.classList.remove('active'));
-    
-    const targetTab = document.getElementById(tabId);
-    if (targetTab) targetTab.classList.add('active');
-    if (btn) btn.classList.add('active');
-    
-    const searchContainer = document.querySelector('.search-container');
-    if (searchContainer) {
-        if (tabId === 'support') {
-            searchContainer.style.display = 'none';
+    stories.forEach(story => {
+        const titulo = story.getAttribute('data-titulo') || '';
+        if (titulo.includes(query)) {
+            story.style.display = 'block';
         } else {
-            searchContainer.style.display = 'block';
+            story.style.display = 'none';
         }
-    }
+    });
 }
 
+// --- MODAL DA FOTO DOS IRMÃOS ---
 function abrirModalFoto() {
-    const modal = document.getElementById('imageModal');
-    const avatar = document.querySelector('.dev-avatar');
-    const modalImg = document.getElementById('modalImg');
-    
-    if (modal && avatar && modalImg) {
-        modalImg.src = avatar.src;
-        modal.style.display = 'flex';
-    }
+    document.getElementById('imageModal').style.display = 'flex';
 }
 
 function fecharModalFoto() {
-    const modal = document.getElementById('imageModal');
-    if (modal) modal.style.display = 'none';
+    document.getElementById('imageModal').style.display = 'none';
 }
 
-window.onscroll = function() {
-    const btnTopo = document.getElementById("btnTopo");
-    if (!btnTopo) return;
+// --- POP-UP DE ANIVERSÁRIO ---
+function fecharPopupAniversario() {
+    const modal = document.getElementById('aniversarioModal');
+    const video = document.getElementById('popupVideo');
+    if (modal) modal.style.display = 'none';
+    if (video) video.pause();
+}
 
+// --- BOTÃO VOLTAR AO TOPO ---
+window.onscroll = function() {
+    const btn = document.getElementById('btnTopo');
     if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-        btnTopo.style.display = "flex";
+        if (btn) btn.style.display = 'flex';
     } else {
-        btnTopo.style.display = "none";
+        if (btn) btn.style.display = 'none';
     }
 };
 
 function voltarAoTopo() {
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
