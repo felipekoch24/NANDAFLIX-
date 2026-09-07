@@ -10,8 +10,8 @@
 
     <div id="appContent" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
         
-        <!-- CABEÇALHO (topo.jpg) - Agora clicável e ajustado para não cortar -->
-        <header class="hero-header" onclick="abrirModalFoto()"></header>
+        <!-- CABEÇALHO (topo.jpg) -->
+        <header class="hero-header" onclick="abrirModalTopo()"></header>
 
         <!-- BARRA DE PESQUISA -->
         <div class="search-box-container">
@@ -22,7 +22,7 @@
         <div class="tabs-navigation">
             <button class="tab-btn active" onclick="openTab('feed', this)">🎬 Episódios</button>
             <button class="tab-btn" onclick="openTab('recentes-tab', this)">⏰ Recentes</button>
-            <button class="tab-btn" onclick="openTab('carta-tab', this)">💌 Carta</button>
+            <button class="tab-btn" onclick="openTab('carta-tab', this)">💌 Carta & Suporte</button>
         </div>
 
         <!-- ABA 1: FEED DE EPISÓDIOS (Vem do JSON) -->
@@ -35,19 +35,50 @@
             <div id="recent-container" style="width: 100%; display: flex; flex-direction: column; align-items: center;"></div>
         </div>
 
-        <!-- ABA 3: CARTA ABERTA -->
+        <!-- ABA 3: CARTA E SUPORTE -->
         <div id="carta-tab" class="tab-content" style="width: 92%; max-width: 600px; display: none; flex-direction: column; align-items: center; text-align: center; padding: 25px; background: rgba(20, 10, 35, 0.9); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 16px; margin-bottom: 30px; box-shadow: 0 5px 20px rgba(0,0,0,0.4);">
             <h2 style="color: #fff; margin-bottom: 15px; font-size: 1.3rem;">Palavras que dizem tudo 🤍</h2>
-            <p style="color: #d8b4fe; line-height: 1.6; font-size: 1rem;">
-                Querida irmã, este espaço foi feito com todo o carinho do mundo para celebrar a sua vida, as nossas memórias mais engraçadas e todas as risadas que compartilhamos.💜✨
+            <p style="color: #d8b4fe; line-height: 1.6; font-size: 1rem; margin-bottom: 25px;">
+                Querida irmã, este espaço foi feito com todo o carinho do mundo para celebrar a sua vida, as nossas memórias mais engraçadas e todas as risadas que compartilhamos. Obrigado por ser essa pessoa incrível que ilumina os nossos dias. Que o seu novo ano seja repleto de conquistas, alegrias e muito chocolate! Te amo muito! 💜✨
             </p>
+
+            <!-- SEÇÃO SUPORTE DENTRO DA CARTA -->
+            <div class="suporte-section" style="width: 100%; border-top: 1px solid rgba(168, 85, 247, 0.3); padding-top: 20px; display: flex; flex-direction: column; align-items: center;">
+                <h3 style="color: #e879f9; font-size: 1.1rem; margin-bottom: 12px;">SUPORTE & FEEDBACK</h3>
+                
+                <!-- Imagem do suporte que abre grande -->
+                <div class="suporte-img-box" onclick="abrirModalFoto()" style="width: 100%; max-width: 300px; cursor: pointer; border-radius: 12px; overflow: hidden; border: 2px solid #a855f7; margin-bottom: 12px;">
+                    <img src="foto-de-voces.jpg" alt="Foto de Suporte" style="width: 100%; display: block;">
+                </div>
+                <button class="fechar-popup-btn" onclick="abrirModalFoto()" style="margin-bottom: 15px; padding: 6px 15px; font-size: 0.85rem;">Ampliar Foto</button>
+
+                <p style="color: #ccc; font-size: 0.95rem; line-height: 1.5; margin-bottom: 15px;">
+                    Sua OPINIÃO é muito IMPORTANTE pra MIM e pro PROJETO.<br>
+                    Se puder gostaria do seu FEEDBACK para saber se continuo ou paro.
+                </p>
+
+                <p style="color: #e879f9; font-weight: bold; font-size: 1.05rem;">
+                    Meu número é: <a href="https://wa.me/5551995830380" target="_blank" style="color: #c084fc; text-decoration: underline;">+55 51 99583-0380</a>
+                </p>
+            </div>
         </div>
 
     </div>
 
-    <!-- MODAL DA FOTO DE TOPO AMPLIADA -->
-    <div id="imageModal" class="image-modal" onclick="fecharModalFoto()">
-        <img src="topo.jpg" alt="Foto Ampliada">
+    <!-- MODAL DA FOTO DO SUPORTE (foto-de-voces.jpg) COM BOTÃO FECHAR EMBAIXO -->
+    <div id="imageModal" class="image-modal">
+        <div class="modal-conteudo-interno" style="display: flex; flex-direction: column; align-items: center; background: #15081c; padding: 20px; border-radius: 16px; border: 2px solid #a855f7; max-width: 90%;">
+            <img src="foto-de-voces.jpg" alt="Foto Ampliada" style="max-width: 100%; max-height: 75vh; border-radius: 12px; margin-bottom: 15px; object-fit: contain;">
+            <button class="close-modal-btn" onclick="fecharModalFoto()">Fechar</button>
+        </div>
+    </div>
+
+    <!-- MODAL DA FOTO DE TOPO -->
+    <div id="topoModal" class="image-modal">
+        <div class="modal-conteudo-interno" style="display: flex; flex-direction: column; align-items: center; background: #15081c; padding: 20px; border-radius: 16px; border: 2px solid #a855f7; max-width: 90%;">
+            <img src="topo.jpg" alt="Topo Ampliado" style="max-width: 100%; max-height: 75vh; border-radius: 12px; margin-bottom: 15px; object-fit: contain;">
+            <button class="close-modal-btn" onclick="fecharModalTopo()">Fechar</button>
+        </div>
     </div>
 
     <!-- BOTÃO FLUTUANTE DE VOLTAR AO TOPO -->
