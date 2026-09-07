@@ -11,7 +11,7 @@
     <!-- CONTEÚDO DO APLICATIVO -->
     <div id="appContent" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
         
-        <!-- CABEÇALHO COM A FOTO DE FUNDO (topo.jpg) E O TÍTULO -->
+        <!-- CABEÇALHO LIMPO (topo.jpg) -->
         <header class="hero-header">
             <div class="hero-overlay">
                 <h1>NANDAFLIX+</h1>
@@ -19,7 +19,12 @@
             </div>
         </header>
 
-        <!-- BOTÕES DE NAVEGAÇÃO (ESTILO CARD DA IMAGEM) -->
+        <!-- BANNER CLICÁVEL (click.jpg) - AO CLICAR ABRE O VÍDEO 01 -->
+        <div class="banner-click-container" onclick="abrirBannerClick()">
+            <img src="click.jpg" alt="Clique aqui para ver a surpresa" onerror="this.style.display='none'">
+        </div>
+
+        <!-- BOTÕES DE NAVEGAÇÃO ORIGINAIS -->
         <div class="tabs-container">
             <button class="tab-btn active" onclick="openTab('feed', this)">
                 <span class="tab-icon">🎬</span>
@@ -88,7 +93,7 @@
         <button class="close-modal-btn" onclick="fecharModalFoto()">Fechar</button>
     </div>
 
-    <!-- POP-UP DE ANIVERSÁRIO (EXIBIDO NO DIA 7) -->
+    <!-- POP-UP DE ANIVERSÁRIO -->
     <div id="aniversarioModal" class="aniversario-modal">
         <div class="aniversario-modal-content">
             <h2>🎉 É HOJE! Feliz Aniversário, Nanda! 💜</h2>
