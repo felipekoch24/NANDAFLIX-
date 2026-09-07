@@ -14,24 +14,50 @@
         <!-- CABEÇALHO LIMPO (topo.jpg) - SEM TEXTO DUPLICADO -->
         <header class="hero-header"></header>
 
-        <!-- BANNER CLICÁVEL (click.jpg) - ABRE O POP-UP -->
+        <!-- BANNER CLICÁVEL (click.jpg) - ABRE O POP-UP DE ANIVERSÁRIO -->
         <div class="banner-click-container" onclick="document.getElementById('aniversarioModal').style.display='flex'; document.getElementById('popupVideo').play();">
             <img src="click.jpg" alt="Clique aqui para ver a surpresa" onerror="this.style.display='none'">
         </div>
 
-        <!-- CONTEÚDO DOS VÍDEOS QUE VEM DO JSON -->
+        <!-- BARRA DE PESQUISA -->
+        <div class="search-box-container">
+            <input type="text" id="searchInput" placeholder="Pesquisar momentos, risadas e muito amor..." onkeyup="filterStories()">
+        </div>
+
+        <!-- MENU DE ABAS -->
+        <div class="tabs-navigation">
+            <button class="tab-btn active" onclick="openTab('feed', this)">🎬 Episódios</button>
+            <button class="tab-btn" onclick="openTab('recentes-tab', this)">⏰ Últimos Adicionados</button>
+            <button class="tab-btn" onclick="openTab('carta-tab', this)">💌 Carta Aberta</button>
+        </div>
+
+        <!-- ABA 1: FEED DE EPISÓDIOS (Vem do JSON) -->
         <div id="feed" class="tab-content active" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
             <div id="feed-container" style="width: 100%; display: flex; flex-direction: column; align-items: center;"></div>
         </div>
+
+        <!-- ABA 2: ÚLTIMOS ADICIONADOS (Vem do JSON) -->
+        <div id="recentes-tab" class="tab-content" style="width: 100%; display: none; flex-direction: column; align-items: center;">
+            <div id="recent-container" style="width: 100%; display: flex; flex-direction: column; align-items: center;"></div>
+        </div>
+
+        <!-- ABA 3: CARTA ABERTA -->
+        <div id="carta-tab" class="tab-content" style="width: 92%; max-width: 600px; display: none; flex-direction: column; align-items: center; text-align: center; padding: 25px; background: rgba(20, 10, 35, 0.9); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 16px; margin-bottom: 30px; box-shadow: 0 5px 20px rgba(0,0,0,0.4);">
+            <h2 style="color: #fff; margin-bottom: 15px; font-size: 1.3rem;">Palavras que dizem tudo 🤍</h2>
+            <p style="color: #d8b4fe; line-height: 1.6; font-size: 1rem;">
+                Querida irmã, este espaço foi feito com todo o carinho do mundo para celebrar a sua vida, as nossas memórias mais engraçadas e todas as risadas que compartilhamos. Obrigado por ser essa pessoa incrível que ilumina os nossos dias. Que o seu novo ano seja repleto de conquistas, alegrias e muito chocolate! Te amo muito! 💜✨
+            </p>
+        </div>
+
     </div>
 
-    <!-- MODAL DA FOTO GRANDE -->
+    <!-- MODAL DA FOTO DOS IRMÃOS -->
     <div id="imageModal" class="image-modal">
         <img id="modalImg" src="foto-de-voces.jpg" alt="Foto Ampliada">
         <button class="close-modal-btn" onclick="fecharModalFoto()">Fechar</button>
     </div>
 
-    <!-- POP-UP DE ANIVERSÁRIO -->
+    <!-- POP-UP DE ANIVERSÁRIO (ACIONADO PELO CLICK.JPG) -->
     <div id="aniversarioModal" class="aniversario-modal">
         <div class="aniversario-modal-content">
             <h2>🎉 É HOJE! Feliz Aniversário, Nanda! 💜</h2>
