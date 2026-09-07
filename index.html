@@ -11,7 +11,7 @@
     <!-- CONTEÚDO DO APLICATIVO -->
     <div id="appContent" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
         
-        <!-- CABEÇALHO LIMPO (topo.jpg) -->
+        <!-- CABEÇALHO COM A FOTO LIMPA (topo.jpg) -->
         <header class="hero-header">
             <div class="hero-overlay">
                 <h1>NANDAFLIX+</h1>
@@ -19,12 +19,12 @@
             </div>
         </header>
 
-        <!-- BANNER CLICÁVEL (click.jpg) - AO CLICAR ABRE O VÍDEO 01 -->
-        <div class="banner-click-container" onclick="abrirBannerClick()">
+        <!-- BANNER CLICÁVEL (click.jpg) - ABRE O POP-UP DIRETAMENTE -->
+        <div class="banner-click-container" onclick="document.getElementById('aniversarioModal').style.display='flex'; document.getElementById('popupVideo').play();">
             <img src="click.jpg" alt="Clique aqui para ver a surpresa" onerror="this.style.display='none'">
         </div>
 
-        <!-- BOTÕES DE NAVEGAÇÃO ORIGINAIS -->
+        <!-- BOTÕES DE NAVEGAÇÃO -->
         <div class="tabs-container">
             <button class="tab-btn active" onclick="openTab('feed', this)">
                 <span class="tab-icon">🎬</span>
@@ -94,11 +94,11 @@
     </div>
 
     <!-- POP-UP DE ANIVERSÁRIO -->
-    <div id="aniversarioModal" class="aniversario-modal">
+    <div id="aniversarioModal" class="aniversario-modal" style="display: flex;">
         <div class="aniversario-modal-content">
             <h2>🎉 É HOJE! Feliz Aniversário, Nanda! 💜</h2>
-            <video id="popupVideo" src="01.mp4" controls controlsList="nodownload"></video>
-            <button class="fechar-popup-btn" onclick="fecharPopupAniversario()">Assistir o resto do app</button>
+            <video id="popupVideo" src="01.mp4" controls controlsList="nodownload" autoplay></video>
+            <button class="fechar-popup-btn" onclick="document.getElementById('aniversarioModal').style.display='none'; document.getElementById('popupVideo').pause();">Assistir o resto do app</button>
         </div>
     </div>
 
