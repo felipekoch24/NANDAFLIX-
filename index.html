@@ -8,16 +8,10 @@
 </head>
 <body>
 
-    <!-- CONTEÚDO DO APLICATIVO -->
     <div id="appContent" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
         
-        <!-- CABEÇALHO LIMPO (topo.jpg) - SEM TEXTO DUPLICADO -->
+        <!-- CABEÇALHO (topo.jpg) -->
         <header class="hero-header"></header>
-
-        <!-- BANNER CLICÁVEL (click.jpg) - ABRE O POP-UP DE ANIVERSÁRIO -->
-        <div class="banner-click-container" onclick="document.getElementById('aniversarioModal').style.display='flex'; document.getElementById('popupVideo').play();">
-            <img src="click.jpg" alt="Clique aqui para ver a surpresa" onerror="this.style.display='none'">
-        </div>
 
         <!-- BARRA DE PESQUISA -->
         <div class="search-box-container">
@@ -27,8 +21,8 @@
         <!-- MENU DE ABAS -->
         <div class="tabs-navigation">
             <button class="tab-btn active" onclick="openTab('feed', this)">🎬 Episódios</button>
-            <button class="tab-btn" onclick="openTab('recentes-tab', this)">⏰ Últimos Adicionados</button>
-            <button class="tab-btn" onclick="openTab('carta-tab', this)">💌 Carta Aberta</button>
+            <button class="tab-btn" onclick="openTab('recentes-tab', this)">⏰ Recentes</button>
+            <button class="tab-btn" onclick="openTab('carta-tab', this)">💌 Carta</button>
         </div>
 
         <!-- ABA 1: FEED DE EPISÓDIOS (Vem do JSON) -->
@@ -49,21 +43,6 @@
             </p>
         </div>
 
-    </div>
-
-    <!-- MODAL DA FOTO DOS IRMÃOS -->
-    <div id="imageModal" class="image-modal">
-        <img id="modalImg" src="foto-de-voces.jpg" alt="Foto Ampliada">
-        <button class="close-modal-btn" onclick="fecharModalFoto()">Fechar</button>
-    </div>
-
-    <!-- POP-UP DE ANIVERSÁRIO (ACIONADO PELO CLICK.JPG) -->
-    <div id="aniversarioModal" class="aniversario-modal">
-        <div class="aniversario-modal-content">
-            <h2>🎉 É HOJE! Feliz Aniversário, Nanda! 💜</h2>
-            <video id="popupVideo" src="01.mp4" controls controlsList="nodownload"></video>
-            <button class="fechar-popup-btn" onclick="document.getElementById('aniversarioModal').style.display='none'; document.getElementById('popupVideo').pause();">Assistir o resto do app</button>
-        </div>
     </div>
 
     <!-- BOTÃO FLUTUANTE DE VOLTAR AO TOPO -->
