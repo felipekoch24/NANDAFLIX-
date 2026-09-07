@@ -3,29 +3,35 @@ let episodios = [];
 
 // --- CARREGAR O JSON E O CONTEÚDO AO ABRIR A PÁGINA ---
 document.addEventListener("DOMContentLoaded", () => {
-    fetch('episodios.json') // <-- Substitua pelo nome exato do seu arquivo json, se precisar
-        .then(response => response.json())
+    fetch('episodios.json') // <-- Nome exato do seu arquivo JSON
+        .then(response => {
+            if (!response.ok) throw new Error("Erro ao carregar o arquivo JSON");
+            return response.json();
+        })
         .then(data => {
             episodios = data;
             carregarFeed();
             carregarRecentes();
         })
-        .catch(error => console.error("Erro ao carregar o arquivo JSON:", error));
+        .catch(error => console.error("Aviso:", error));
 });
 
 // --- ALTERAR ABAS ---
 function openTab(tabId, element) {
     const contents = document.querySelectorAll('.tab-content');
-    contents.forEach(content => content.classList.remove('active'));
+    contents.forEach(content => content.style.display = 'none');
 
     const buttons = document.querySelectorAll('.tab-btn');
     buttons.forEach(btn => btn.classList.remove('active'));
 
-    document.getElementById(tabId).classList.add('active');
+    const targetTab = document.getElementById(tabId);
+    if (targetTab) {
+        targetTab.style.display = 'flex';
+    }
     element.classList.add('active');
 }
 
-// --- RENDERIZAR FEED ---
+// --- RENDERIZAR FEED DE EPISÓDIOS ---
 function carregarFeed() {
     const container = document.getElementById('feed-container');
     if (!container) return;
@@ -34,7 +40,7 @@ function carregarFeed() {
     episodios.forEach(ep => {
         container.innerHTML += `
             <div class="story-container" data-titulo="${ep.titulo.toLowerCase()}">
-                <div class="category-section" style="width:100%; margin:0;">
+                <div class="category-section">
                     <h3 class="category-title">${ep.categoria}</h3>
                 </div>
                 <div class="video-box">
@@ -59,11 +65,10 @@ function carregarRecentes() {
     if (!container) return;
 
     container.innerHTML = '';
-    // Pega os itens para colocar nos recentes (exibindo os dois últimos ou todos)
     episodios.forEach(ep => {
         container.innerHTML += `
             <div class="story-container">
-                <div class="category-section" style="width:100%; margin:0;">
+                <div class="category-section">
                     <h3 class="category-title">${ep.categoria}</h3>
                 </div>
                 <div class="video-box">
@@ -104,21 +109,15 @@ function filterStories() {
     });
 }
 
-// --- MODAL DA FOTO DOS IRMÃOS ---
+// --- MODAL DA FOTO ---
 function abrirModalFoto() {
-    document.getElementById('imageModal').style.display = 'flex';
+    const modal = document.getElementById('imageModal');
+    if (modal) modal.style.display = 'flex';
 }
 
 function fecharModalFoto() {
-    document.getElementById('imageModal').style.display = 'none';
-}
-
-// --- POP-UP DE ANIVERSÁRIO ---
-function fecharPopupAniversario() {
-    const modal = document.getElementById('aniversarioModal');
-    const video = document.getElementById('popupVideo');
+    const modal = document.getElementById('imageModal');
     if (modal) modal.style.display = 'none';
-    if (video) video.pause();
 }
 
 // --- BOTÃO VOLTAR AO TOPO ---
