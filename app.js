@@ -1,17 +1,16 @@
-// --- VARIÁVEL GLOBAL PARA GUARDAR OS DADOS DO JSON ---
-let episodios = [];
+let videosList = [];
 
-// --- CARREGAR O JSON E O CONTEÚDO AO ABRIR A PÁGINA ---
 document.addEventListener("DOMContentLoaded", () => {
-    fetch('videos.json') // <-- Nome exato do seu arquivo JSON
+    fetch('videos.json')
         .then(response => {
-            if (!response.ok) throw new Error("Erro ao carregar o arquivo JSON");
+            if (!response.ok) throw new Error("Erro ao carregar o arquivo videos.json");
             return response.json();
         })
         .then(data => {
-            episodios = data;
+            videosList = data;
             carregarFeed();
             carregarRecentes();
+            configurarPlayerUnico(); // Ativa a regra de tocar um por vez
         })
         .catch(error => console.error("Aviso:", error));
 });
@@ -31,20 +30,20 @@ function openTab(tabId, element) {
     element.classList.add('active');
 }
 
-// --- RENDERIZAR FEED DE EPISÓDIOS ---
+// --- RENDERIZAR FEED DE VÍDEOS (Com Loop Infinito) ---
 function carregarFeed() {
     const container = document.getElementById('feed-container');
     if (!container) return;
 
     container.innerHTML = '';
-    episodios.forEach(ep => {
+    videosList.forEach(ep => {
         container.innerHTML += `
             <div class="story-container" data-titulo="${ep.titulo.toLowerCase()}">
                 <div class="category-section">
                     <h3 class="category-title">${ep.categoria}</h3>
                 </div>
                 <div class="video-box">
-                    <video src="${ep.src}" controls controlsList="nodownload"></video>
+                    <video src="${ep.src}" controls loop controlsList="nodownload"></video>
                 </div>
                 <div class="story-content">
                     <h2>${ep.titulo}</h2>
@@ -57,22 +56,23 @@ function carregarFeed() {
             </div>
         `;
     });
+    configurarPlayerUnico();
 }
 
-// --- RENDERIZAR ÚLTIMOS ADICIONADOS ---
+// --- RENDERIZAR ÚLTIMOS ADICIONADOS (Com Loop Infinito) ---
 function carregarRecentes() {
     const container = document.getElementById('recent-container');
     if (!container) return;
 
     container.innerHTML = '';
-    episodios.forEach(ep => {
+    videosList.forEach(ep => {
         container.innerHTML += `
             <div class="story-container">
                 <div class="category-section">
                     <h3 class="category-title">${ep.categoria}</h3>
                 </div>
                 <div class="video-box">
-                    <video src="${ep.src}" controls controlsList="nodownload"></video>
+                    <video src="${ep.src}" controls loop controlsList="nodownload"></video>
                 </div>
                 <div class="story-content">
                     <h2>${ep.titulo}</h2>
@@ -80,6 +80,21 @@ function carregarRecentes() {
                 </div>
             </div>
         `;
+    });
+    configurarPlayerUnico();
+}
+
+// --- GARANTIR QUE APENAS UM VÍDEO TOQUE POR VEZ ---
+function configurarPlayerUnico() {
+    const videos = document.querySelectorAll('video');
+    videos.forEach(video => {
+        video.addEventListener('play', () => {
+            videos.forEach(v => {
+                if (v !== video) {
+                    v.pause();
+                }
+            });
+        });
     });
 }
 
@@ -109,7 +124,7 @@ function filterStories() {
     });
 }
 
-// --- MODAL DA FOTO ---
+// --- MODAL DA FOTO DE SUPORTE ---
 function abrirModalFoto() {
     const modal = document.getElementById('imageModal');
     if (modal) modal.style.display = 'flex';
@@ -117,6 +132,17 @@ function abrirModalFoto() {
 
 function fecharModalFoto() {
     const modal = document.getElementById('imageModal');
+    if (modal) modal.style.display = 'none';
+}
+
+// --- MODAL DA FOTO DE TOPO ---
+function abrirModalTopo() {
+    const modal = document.getElementById('topoModal');
+    if (modal) modal.style.display = 'flex';
+}
+
+function fecharModalTopo() {
+    const modal = document.getElementById('topoModal');
     if (modal) modal.style.display = 'none';
 }
 
