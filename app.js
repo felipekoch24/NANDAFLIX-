@@ -3,7 +3,7 @@ let episodios = [];
 
 // --- CARREGAR O JSON E O CONTEÚDO AO ABRIR A PÁGINA ---
 document.addEventListener("DOMContentLoaded", () => {
-    fetch('episodios.json') // <-- Nome exato do seu arquivo JSON
+    fetch('videos.json') // <-- Nome exato do seu arquivo JSON
         .then(response => {
             if (!response.ok) throw new Error("Erro ao carregar o arquivo JSON");
             return response.json();
