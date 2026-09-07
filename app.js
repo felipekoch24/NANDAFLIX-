@@ -1,34 +1,26 @@
-// --- DADOS DOS VÍDEOS (EPISÓDIOS) ---
-const episodios = [
-    {
-        id: 1,
-        titulo: "7 de SETEMBRO",
-        video: "01.mp4",
-        citacao: "O começo de tudo e as melhores memórias que guardamos no coração.",
-        texto: "Um dia mais do que especial que merece ser lembrado sempre com muito carinho e sorrisos.",
-        data: "2026-09-07",
-        recente: true
-    }
-    // Adicione mais episódios aqui se quiser!
-];
+// --- VARIÁVEL GLOBAL PARA GUARDAR OS DADOS DO JSON ---
+let episodios = [];
 
-// --- CARREGAR CONTEÚDO AO ABRIR A PÁGINA ---
+// --- CARREGAR O JSON E O CONTEÚDO AO ABRIR A PÁGINA ---
 document.addEventListener("DOMContentLoaded", () => {
-    carregarFeed();
-    carregarRecentes();
+    fetch('episodios.json') // <-- Substitua pelo nome exato do seu arquivo json, se precisar
+        .then(response => response.json())
+        .then(data => {
+            episodios = data;
+            carregarFeed();
+            carregarRecentes();
+        })
+        .catch(error => console.error("Erro ao carregar o arquivo JSON:", error));
 });
 
 // --- ALTERAR ABAS ---
 function openTab(tabId, element) {
-    // Esconde todas as abas
     const contents = document.querySelectorAll('.tab-content');
     contents.forEach(content => content.classList.remove('active'));
 
-    // Remove a classe active de todos os botões
     const buttons = document.querySelectorAll('.tab-btn');
     buttons.forEach(btn => btn.classList.remove('active'));
 
-    // Mostra a aba escolhida e ativa o botão correspondente
     document.getElementById(tabId).classList.add('active');
     element.classList.add('active');
 }
@@ -43,15 +35,15 @@ function carregarFeed() {
         container.innerHTML += `
             <div class="story-container" data-titulo="${ep.titulo.toLowerCase()}">
                 <div class="category-section" style="width:100%; margin:0;">
-                    <h3 class="category-title">${ep.titulo}</h3>
+                    <h3 class="category-title">${ep.categoria}</h3>
                 </div>
                 <div class="video-box">
-                    <video src="${ep.video}" controls controlsList="nodownload"></video>
+                    <video src="${ep.src}" controls controlsList="nodownload"></video>
                 </div>
                 <div class="story-content">
                     <h2>${ep.titulo}</h2>
                     <blockquote>"${ep.citacao}"</blockquote>
-                    <p>${ep.texto}</p>
+                    <p>${ep.descricao}</p>
                     <button class="like-btn" onclick="toggleLike(this)">
                         <span>🤍</span> Curtir Momento
                     </button>
@@ -67,17 +59,19 @@ function carregarRecentes() {
     if (!container) return;
 
     container.innerHTML = '';
-    const recentes = episodios.filter(ep => ep.recente);
-    
-    recentes.forEach(ep => {
+    // Pega os itens para colocar nos recentes (exibindo os dois últimos ou todos)
+    episodios.forEach(ep => {
         container.innerHTML += `
             <div class="story-container">
+                <div class="category-section" style="width:100%; margin:0;">
+                    <h3 class="category-title">${ep.categoria}</h3>
+                </div>
                 <div class="video-box">
-                    <video src="${ep.video}" controls controlsList="nodownload"></video>
+                    <video src="${ep.src}" controls controlsList="nodownload"></video>
                 </div>
                 <div class="story-content">
-                    <h2>${ep.titulo} (Recente)</h2>
-                    <p>${ep.texto}</p>
+                    <h2>${ep.titulo}</h2>
+                    <p>${ep.descricao}</p>
                 </div>
             </div>
         `;
