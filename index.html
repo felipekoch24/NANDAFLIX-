@@ -11,79 +11,17 @@
     <!-- CONTEÚDO DO APLICATIVO -->
     <div id="appContent" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
         
-        <!-- CABEÇALHO COM A FOTO LIMPA (topo.jpg) -->
-        <header class="hero-header">
-            <div class="hero-overlay">
-                <h1>NANDAFLIX+</h1>
-                <p>O streaming oficial das nossas melhores memórias.<br>Feliz aniversário! 💜</p>
-            </div>
-        </header>
+        <!-- CABEÇALHO LIMPO (topo.jpg) - SEM TEXTO DUPLICADO -->
+        <header class="hero-header"></header>
 
-        <!-- BANNER CLICÁVEL (click.jpg) - ABRE O POP-UP DIRETAMENTE -->
+        <!-- BANNER CLICÁVEL (click.jpg) - ABRE O POP-UP -->
         <div class="banner-click-container" onclick="document.getElementById('aniversarioModal').style.display='flex'; document.getElementById('popupVideo').play();">
             <img src="click.jpg" alt="Clique aqui para ver a surpresa" onerror="this.style.display='none'">
         </div>
 
-        <!-- BOTÕES DE NAVEGAÇÃO -->
-        <div class="tabs-container">
-            <button class="tab-btn active" onclick="openTab('feed', this)">
-                <span class="tab-icon">🎬</span>
-                <div class="tab-text">
-                    <strong>Episódios</strong>
-                    <span>Nossos momentos em vídeo</span>
-                </div>
-            </button>
-
-            <button class="tab-btn" onclick="openTab('recentes', this)">
-                <span class="tab-icon">🕒</span>
-                <div class="tab-text">
-                    <strong>Últimos adicionados</strong>
-                    <span>O que acabamos de assistir</span>
-                </div>
-            </button>
-
-            <button class="tab-btn" onclick="openTab('support', this)">
-                <span class="tab-icon">💌</span>
-                <div class="tab-text">
-                    <strong>Carta Aberta</strong>
-                    <span>Palavras que dizem tudo</span>
-                </div>
-            </button>
-        </div>
-
-        <!-- BARRA DE PESQUISA ESTILIZADA -->
-        <div class="search-container">
-            <span class="search-icon">🔍</span>
-            <input type="text" id="searchInput" placeholder="Pesquisar momentos, risadas e muito amor..." onkeyup="filterStories()">
-            <span class="search-heart">💜</span>
-        </div>
-
-        <!-- CONTEÚDO DAS ABAS -->
-        <div id="feed" class="tab-content active">
-            <div id="feed-container"></div>
-        </div>
-
-        <div id="recentes" class="tab-content">
-            <div id="recent-container" style="width: 100%; display: flex; flex-direction: column; align-items: center;"></div>
-        </div>
-
-        <div id="support" class="tab-content">
-            <div class="dev-section">
-                <img src="foto-de-voces.jpg" alt="Nós dois" class="dev-avatar" onclick="abrirModalFoto()" onerror="this.src='https://via.placeholder.com/120?text=Irm%C3%A3os'">
-                <h2>Para NANDA</h2>
-                <p>Fiz esse aplicativo exclusivo primeiramente por conta do teu aniversário. Espero que seja útil e que goste.</p>
-                <p>Espero que cada "episódio" aqui te faça sorrir e lembrar o quanto você é especial, forte e amada pelas pessoas.</p>
-                <p><strong>Com muito carinho, do seu irmão LIPE 🤍</strong></p>
-
-                <hr style="border: 0; border-top: 1px solid #3b0764; margin: 25px 0;">
-
-                <h2 style="font-size: 1.3rem; margin-bottom: 12px;">SUPORTE</h2>
-                <p>Gostaria muito do seu FEEDBACK.<br>Qualquer sugestão, opinião, clique no botão abaixo e entre em contato comigo.</p>
-                
-                <a href="https://wa.me/5551995830380?text=Oi%20Lipe,%20gostei%20do%20NandaFlix!" target="_blank" class="whatsapp-btn">
-                    <span>💬</span> Chamar no WhatsApp
-                </a>
-            </div>
+        <!-- CONTEÚDO DOS VÍDEOS QUE VEM DO JSON -->
+        <div id="feed" class="tab-content active" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+            <div id="feed-container" style="width: 100%; display: flex; flex-direction: column; align-items: center;"></div>
         </div>
     </div>
 
@@ -94,10 +32,10 @@
     </div>
 
     <!-- POP-UP DE ANIVERSÁRIO -->
-    <div id="aniversarioModal" class="aniversario-modal" style="display: flex;">
+    <div id="aniversarioModal" class="aniversario-modal">
         <div class="aniversario-modal-content">
             <h2>🎉 É HOJE! Feliz Aniversário, Nanda! 💜</h2>
-            <video id="popupVideo" src="01.mp4" controls controlsList="nodownload" autoplay></video>
+            <video id="popupVideo" src="01.mp4" controls controlsList="nodownload"></video>
             <button class="fechar-popup-btn" onclick="document.getElementById('aniversarioModal').style.display='none'; document.getElementById('popupVideo').pause();">Assistir o resto do app</button>
         </div>
     </div>
